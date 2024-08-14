@@ -1,0 +1,36 @@
+import json
+
+# Exemplo de JSON para teste
+json_data = '''{
+    "key1": [1, 2, 3],
+    "key2": {
+        "key3": [4, 5],
+        "key4": {
+            "key5": [6, 7],
+            "key6": "not an array"
+        }
+    }
+}'''
+
+# Carregar o JSON
+data = json.loads(json_data)
+
+# Inicializar o contador
+array_count = 0
+
+def count_arrays(obj):
+    global array_count
+    if isinstance(obj, list):
+        array_count += 1
+        for item in obj:
+            if isinstance(item, dict) or isinstance(item, list):
+                count_arrays(item)
+    elif isinstance(obj, dict):
+        for key in obj:
+            count_arrays(obj[key])
+
+# Contar arrays
+count_arrays(data)
+
+# Exibir o total de arrays
+print(f'Total de arrays: {array_count}')
